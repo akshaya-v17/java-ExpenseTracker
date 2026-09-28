@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ExpenseJar - Personal Expense Tracker</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+        <div class="brand-icon">₹</div>
+
+        <div>
+            <h1>ExpenseJar</h1>
+            <span>Personal Finance</span>
+        </div>
+    </div>
+
+    <nav class="navigation">
+
+        <button class="nav-item active"
+                onclick="showSection('dashboard', this)">
+            <span>⌂</span>
+            Dashboard
+        </button>
+
+        <button class="nav-item"
+                onclick="showSection('expenses', this)">
+            <span>₹</span>
+            Expenses
+        </button>
+
+        <button class="nav-item"
+                onclick="showSection('budgets', this)">
+            <span>◫</span>
+            Budgets
+        </button>
+
+        <button class="nav-item"
+                onclick="showSection('categories', this)">
+            <span>◈</span>
+            Categories
+        </button>
+
+        <button class="nav-item"
+                onclick="showSection('users', this)">
+            <span>♙</span>
+            Users
+        </button>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+        <div class="sidebar-tip">
+            <span>💡</span>
+            <p>
+                Keep your spending under control
+                by tracking every expense.
+            </p>
+        </div>
+
+        <div class="app-version">
+            ExpenseJar v1.0
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main-content">
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <div>
+            <p class="topbar-small">PERSONAL EXPENSE TRACKER</p>
+            <h2 id="pageTitle">Dashboard</h2>
+        </div>
+
+        <div class="topbar-actions">
+
+            <button class="refresh-btn"
+                    onclick="refreshDashboard()">
+                ↻ Refresh
+            </button>
+
+            <div class="profile">
+                <div class="profile-avatar">E</div>
+
+                <div>
+                    <strong id="currentUserName">
+                        Expense User
+                    </strong>
+
+                    <small id="currentUserEmail">
+                        expense@example.com
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <section id="dashboard" class="page-section active">
+
+        <div class="welcome-card">
+
+            <div>
+                <p class="welcome-label">
+                    EXPENSEJAR
+                </p>
+
+                <h1>
+                    Manage your money
+                    <span>smarter.</span>
+                </h1>
+
+                <p class="welcome-description">
+                    Track expenses, manage budgets and
+                    understand your monthly spending.
+                </p>
+
+                <button class="primary-btn"
+                        onclick="openExpenseSection()">
+                    + Add Expense
+                </button>
+            </div>
+
+            <div class="welcome-illustration">
+                <div class="wallet">
+                    <div class="wallet-card"></div>
+                    <div class="wallet-money">₹</div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- STAT CARDS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon expense-icon">
+                    ₹
+                </div>
+
+                <div>
+                    <span>Total Spending</span>
+                    <h3 id="totalSpending">₹0.00</h3>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon budget-icon">
+                    ◫
+                </div>
+
+                <div>
+                    <span>Total Budget</span>
+                    <h3 id="totalBudget">₹0.00</h3>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon remaining-icon">
+                    ✓
+                </div>
+
+                <div>
+                    <span>Remaining</span>
+                    <h3 id="remainingBudget">₹0.00</h3>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon alert-icon">
+                    !
+                </div>
+
+                <div>
+                    <span>Budget Alerts</span>
+                    <h3 id="alertCount">0</h3>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DASHBOARD CONTENT -->
+
+        <div class="dashboard-grid">
+
+            <!-- RECENT EXPENSES -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <p class="panel-label">
+                            TRANSACTIONS
+                        </p>
+
+                        <h3>Recent Expenses</h3>
+                    </div>
+
+                    <button class="text-btn"
+                            onclick="showSectionById('expenses')">
+                        View all →
+                    </button>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="recentExpensesTable">
+                        <tr>
+                            <td colspan="4"
+                                class="empty-state">
+                                No expenses yet.
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- CATEGORY SUMMARY -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <p class="panel-label">
+                            SPENDING
+                        </p>
+
+                        <h3>By Category</h3>
+                    </div>
+
+                </div>
+
+                <div id="categorySummary"
+                     class="category-summary">
+
+                    <div class="empty-state">
+                        No category data available.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MONTHLY TREND -->
+
+        <div class="panel trend-panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <p class="panel-label">
+                        ANALYTICS
+                    </p>
+
+                    <h3>Month-over-Month Spending</h3>
+                </div>
+
+                <div class="trend-period">
+
+                    <select id="trendYear"
+                            onchange="loadTrend()">
+                    </select>
+
+                    <select id="trendMonth"
+                            onchange="loadTrend()">
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div id="trendChart"
+                 class="trend-chart">
+
+                <div class="empty-state">
+                    Trend data will appear here.
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= EXPENSES ================= -->
+
+    <section id="expenses"
+             class="page-section">
+
+        <div class="section-header">
+
+            <div>
+                <p class="panel-label">
+                    TRANSACTION MANAGEMENT
+                </p>
+
+                <h2>Expenses</h2>
+
+                <p>
+                    Add and manage your personal expenses.
+                </p>
+            </div>
+
+            <button class="primary-btn"
+                    onclick="toggleForm('expenseFormCard')">
+                + Add Expense
+            </button>
+
+        </div>
+
+
+        <!-- ADD EXPENSE FORM -->
+
+        <div id="expenseFormCard"
+             class="form-card hidden">
+
+            <div class="form-card-header">
+                <div>
+                    <h3>Add New Expense</h3>
+                    <p>Record a new transaction.</p>
+                </div>
+
+                <button class="close-btn"
+                        onclick="toggleForm('expenseFormCard')">
+                    ×
+                </button>
+            </div>
+
+            <form id="expenseForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Amount</label>
+
+                        <div class="input-prefix">
+                            <span>₹</span>
+
+                            <input type="number"
+                                   id="expenseAmount"
+                                   min="0.01"
+                                   step="0.01"
+                                   placeholder="500.00"
+                                   required>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Date</label>
+
+                        <input type="date"
+                               id="expenseDate"
+                               required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Category</label>
+
+                        <select id="expenseCategory"
+                                required>
+
+                            <option value="">
+                                Select category
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Description</label>
+
+                        <input type="text"
+                               id="expenseDescription"
+                               placeholder="e.g. Lunch">
+
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button type="button"
+                            class="secondary-btn"
+                            onclick="toggleForm('expenseFormCard')">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            class="primary-btn">
+                        Add Expense
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- EXPENSE TABLE -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <p class="panel-label">
+                        ALL TRANSACTIONS
+                    </p>
+
+                    <h3>Expense History</h3>
+                </div>
+
+                <div class="search-box">
+
+                    <span>⌕</span>
+
+                    <input type="text"
+                           id="expenseSearch"
+                           placeholder="Search expenses..."
+                           oninput="filterExpenses()">
+
+                </div>
+
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="expensesTable">
+
+                    <tr>
+                        <td colspan="6"
+                            class="empty-state">
+                            Loading...
+                        </td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= BUDGETS ================= -->
+
+    <section id="budgets"
+             class="page-section">
+
+        <div class="section-header">
+
+            <div>
+                <p class="panel-label">
+                    FINANCIAL PLANNING
+                </p>
+
+                <h2>Monthly Budgets</h2>
+
+                <p>
+                    Set spending limits for each category.
+                </p>
+            </div>
+
+            <button class="primary-btn"
+                    onclick="toggleForm('budgetFormCard')">
+                + Set Budget
+            </button>
+
+        </div>
+
+
+        <!-- BUDGET FORM -->
+
+        <div id="budgetFormCard"
+             class="form-card hidden">
+
+            <div class="form-card-header">
+
+                <div>
+                    <h3>Set Monthly Budget</h3>
+                    <p>
+                        Define a spending limit.
+                    </p>
+                </div>
+
+                <button class="close-btn"
+                        onclick="toggleForm('budgetFormCard')">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="budgetForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Budget Amount</label>
+
+                        <div class="input-prefix">
+
+                            <span>₹</span>
+
+                            <input type="number"
+                                   id="budgetAmount"
+                                   min="0.01"
+                                   step="0.01"
+                                   placeholder="5000"
+                                   required>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Month</label>
+
+                        <input type="month"
+                               id="budgetMonth"
+                               required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Category</label>
+
+                        <select id="budgetCategory"
+                                required>
+
+                            <option value="">
+                                Select category
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button type="button"
+                            class="secondary-btn"
+                            onclick="toggleForm('budgetFormCard')">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            class="primary-btn">
+                        Save Budget
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- BUDGET TABLE -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <p class="panel-label">
+                        BUDGET OVERVIEW
+                    </p>
+
+                    <h3>Your Budgets</h3>
+                </div>
+
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>Month</th>
+                        <th>Budget</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="budgetsTable">
+
+                    <tr>
+                        <td colspan="6"
+                            class="empty-state">
+                            Loading...
+                        </td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CATEGORIES ================= -->
+
+    <section id="categories"
+             class="page-section">
+
+        <div class="section-header">
+
+            <div>
+                <p class="panel-label">
+                    ORGANIZATION
+                </p>
+
+                <h2>Categories</h2>
+
+                <p>
+                    Organize your expenses into categories.
+                </p>
+            </div>
+
+            <button class="primary-btn"
+                    onclick="toggleForm('categoryFormCard')">
+                + Add Category
+            </button>
+
+        </div>
+
+
+        <div id="categoryFormCard"
+             class="form-card hidden">
+
+            <div class="form-card-header">
+
+                <div>
+                    <h3>Create Category</h3>
+                    <p>Add a new spending category.</p>
+                </div>
+
+                <button class="close-btn"
+                        onclick="toggleForm('categoryFormCard')">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="categoryForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Category Name</label>
+
+                        <input type="text"
+                               id="categoryName"
+                               placeholder="e.g. Food"
+                               required>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button type="button"
+                            class="secondary-btn"
+                            onclick="toggleForm('categoryFormCard')">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            class="primary-btn">
+                        Create Category
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <div class="category-grid"
+             id="categoryCards">
+
+            <div class="empty-state">
+                Loading categories...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= USERS ================= -->
+
+    <section id="users"
+             class="page-section">
+
+        <div class="section-header">
+
+            <div>
+                <p class="panel-label">
+                    ACCOUNT
+                </p>
+
+                <h2>Users</h2>
+
+                <p>
+                    Manage ExpenseJar users.
+                </p>
+            </div>
+
+            <button class="primary-btn"
+                    onclick="toggleForm('userFormCard')">
+                + Add User
+            </button>
+
+        </div>
+
+
+        <div id="userFormCard"
+             class="form-card hidden">
+
+            <div class="form-card-header">
+
+                <div>
+                    <h3>Create User</h3>
+                    <p>Add a new ExpenseJar user.</p>
+                </div>
+
+                <button class="close-btn"
+                        onclick="toggleForm('userFormCard')">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="userForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Name</label>
+
+                        <input type="text"
+                               id="userName"
+                               placeholder="Your name"
+                               required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Email</label>
+
+                        <input type="email"
+                               id="userEmail"
+                               placeholder="you@example.com"
+                               required>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button type="button"
+                            class="secondary-btn"
+                            onclick="toggleForm('userFormCard')">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            class="primary-btn">
+                        Create User
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <p class="panel-label">
+                        USER DIRECTORY
+                    </p>
+
+                    <h3>Registered Users</h3>
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="usersTable">
+
+                    <tr>
+                        <td colspan="4"
+                            class="empty-state">
+                            Loading...
+                        </td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================= TOAST ================= -->
+
+<div id="toast"
+     class="toast">
+
+    <div id="toastIcon">✓</div>
+
+    <div>
+        <strong id="toastTitle">
+            Success
+        </strong>
+
+        <p id="toastMessage">
+            Operation completed.
+        </p>
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
